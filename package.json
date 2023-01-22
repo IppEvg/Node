@@ -8,6 +8,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js"
   },
+  "bin":{
+    "reader": "node hw-3 -- -p hw-3.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/IppEvg/Node.git"
@@ -19,9 +22,13 @@
   },
   "homepage": "https://github.com/IppEvg/Node#readme",
   "dependencies": {
-    "colors": "^1.4.0"
+    "colors": "^1.4.0",
+    "inquirer": "^9.1.4",
+    "requirer": "^0.0.4",
+    "yargs": "^17.6.2"
   },
   "devDependencies": {
     "@types/node": "^18.11.18"
-  }
+  },
+  "keywords": []
 }
