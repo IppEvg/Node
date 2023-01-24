@@ -6,10 +6,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node hw-4"
   },
-  "bin":{
-    "reader": "node hw-3 -- -p hw-3.js"
+  "bin": {
+    "reader": "node hw-4 -- -p hw-4.js"
   },
   "repository": {
     "type": "git",
