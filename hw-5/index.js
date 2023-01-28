@@ -5,6 +5,7 @@ import fs from "fs";
 import { Transform } from 'stream';
 
 
+
 const port = 3000;
 const host = 'localhost';
 const list = [];
@@ -21,7 +22,8 @@ const links = (arr, ourUrl) => {
 
 const server = http.createServer((req, res) => {
     if (req.method === "GET") {
-        const route = req.url.split("?")[0];
+        const route = req.url.split("?")[0].trim();
+        console.log(process.cwd());
         const dir = path.join(process.cwd(), route);
         fs.stat(dir, (err, stats) => {
             if (!err) {
@@ -38,12 +40,14 @@ const server = http.createServer((req, res) => {
                             return items;
                         })
                         .then((data) => {
-                            const filePath = path.join(process.cwd(), "./index.html");
+                            
+                            const filePath = path.join(process.cwd(), "/index.html");
                             const rs = fs.createReadStream(filePath);
+                            console.log(filePath);
                             const ts = new Transform({
                                 transform(chunk, encoding, callback) {
                                     const li = links(data, route);
-                                    this.push(chunk.toString().replace("#filelinks#", li));
+                                    this.push(chunk.toString().replace("",`<body><h3>File manager</h3>${li}</body>` ));
                                     callback();
                                 },
                             });
