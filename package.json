@@ -26,6 +26,7 @@
     "inquirer": "^9.1.4",
     "nodemon": "^2.0.20",
     "requirer": "^0.0.4",
+    "socket.io": "^4.5.4",
     "yargs": "^17.6.2"
   },
   "devDependencies": {

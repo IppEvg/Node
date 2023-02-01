@@ -25,6 +25,7 @@ const server = http.createServer((req, res) => {
         const route = req.url.split("?")[0].trim();
         console.log(process.cwd());
         const dir = path.join(process.cwd(), route);
+        console.log(dir);
         fs.stat(dir, (err, stats) => {
             if (!err) {
                 if (stats.isFile(dir)) {

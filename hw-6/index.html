@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        h2 {
+            text-align: center;
+        }
+
+        span {
+            color: rgb(59, 21, 95);
+        }
+
+        .name {
+            margin-left: 25%;
+            margin: 0px 25%;
+        }
+
+        .main {
+            margin: auto;
+            padding-top: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            align-items: center;
+            position: relative;
+            width: 300px;
+            min-height: 70px;
+        }
+
+        .info {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            font-size: 7px;
+            width: 50px;
+            padding: 5px;
+            height: fit-content;
+            padding: 5px;
+            background: rgb(110, 91, 128);
+            border-radius: 50%;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .square {
+            width: 18px;
+            height: 18px;
+            position: absolute;
+            right: 40px;
+            top: 10px;
+            background-color: rgb(110, 91, 128);
+            transform: rotate(45deg);
+        }
+
+        .window {
+            min-height: 30px;
+            border: 1px solid;
+            width: 300px;
+            margin: 0px auto;
+        }
+
+        .send {
+            background-color: rgb(110, 91, 128);
+            border: 0;
+            border-radius: 3px;
+            color: azure;
+            display: inline-block;
+            transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+        }
+
+        .send:hover {
+            background-color: rgb(121, 66, 172);
+            box-shadow: 0px 0px 8px 8px rgba(110, 91, 128, 0.2);
+            transform: scale(1.1, 1.1);
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Messanger</h2>
+    <h5 class="name"></h5>
+    <div class="main">
+        <div id="ammount" class="info"></div>
+        <div class="square"></div>
+        <input type="text" autofocus id="input">
+        <input type="submit" id="send" class="send" value="send"></input>
+    </div>
+
+    <div class="window" id="app">
+    </div>
+</body>
+
+<script type="text/javascript">
+    const socket = io("localhost:3000");
+    let name = prompt("введи имя").toString();
+
+    socket.on("connect", () => {
+        console.log(`Соединение с новым клиентом ${name}`);
+        document.querySelector(".name").innerHTML = `Имя: <span class="span">${name}</span>`
+
+    });
+
+    socket.on("server-count", (i) => {
+        document.getElementById("ammount").innerText = `Пользователей в чате: ${i} `;
+    })
+
+    socket.on("server-msg", ({ msg }, name) => {
+        const msgSpan = document.createElement("span").innerHTML = `${name}: ${msg}`;
+        document.getElementById("app").append(msgSpan);
+        document.getElementById("app").append(document.createElement("br"))
+    })
+
+    document.getElementById('send').onclick = function () {
+        socket.emit("client-msg", { msg: document.getElementById('input').value }, name)
+        document.getElementById("input").value = "";
+    };
+</script>
+
+</html>
